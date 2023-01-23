@@ -58,7 +58,7 @@ module.exports.updateDustbinLevel_post = (req, res) => {
   const { level } = req.body;
   const { dustbinId } = req.params;
 
-  if (level) {
+  if (level === undefined || level === null) {
     Dustbin.findByIdAndUpdate(dustbinId, { level }, { new: true })
       .then(updatedDustbin =>
         successRes(res, {
