@@ -60,7 +60,12 @@ module.exports.updateDustbinLevel_post = (req, res) => {
 
   if (level) {
     Dustbin.findByIdAndUpdate(dustbinId, { level }, { new: true })
-      .then(updatedDustbin => successRes(res, { dustbin: updatedDustbin }))
+      .then(updatedDustbin =>
+        successRes(res, {
+          dustbin: updatedDustbin,
+          message: 'Dustbin updated.',
+        })
+      )
       .catch(err => {
         console.log(err);
         return errorRes(res, 500, 'Internal server error.');
