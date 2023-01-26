@@ -16,6 +16,11 @@ const DustbinSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    dustbinId: {
+      type: String,
+      required: true,
+      unique: true,
+    },
   },
   { timestamps: true }
 );

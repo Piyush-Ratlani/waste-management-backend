@@ -18,7 +18,7 @@ router.post(
 router.post('/dustbin/add', requireAdminLogin, appController.addDustbin_post);
 router.get('/dustbin/all', appController.allDustbin_get);
 router.post(
-  '/dustbin/:dustbinId/update/level',
+  '/dustbin/:dustbin_Id/update/level',
   requireEmployeeLogin,
   appController.updateDustbinLevel_post
 );

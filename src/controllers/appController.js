@@ -14,22 +14,23 @@ module.exports.allEmployees_get = (req, res) => {
 };
 
 module.exports.addDustbin_post = (req, res) => {
-  const { place, level, channel } = req.body;
+  const { place, level, channel, dustbinId } = req.body;
 
-  if (!place || !channel) return errorRes(res, 400, 'All fields are required.');
+  if (!place || !channel || !dustbinId)
+    return errorRes(res, 400, 'All fields are required.');
 
-  Dustbin.findOne({ place })
+  Dustbin.findOne({ dustbinId })
     .then(savedDustbin => {
       if (savedDustbin)
-        return errorRes(res, 400, 'Dustbin already added for given place.');
+        return errorRes(res, 400, 'Dustbin already exist with given ID.');
       else {
-        const dustbin = new Dustbin({ place, level, channel });
+        const dustbin = new Dustbin({ place, level, channel, dustbinId });
         dustbin
           .save()
           .then(newDustbin => {
-            const { _id, place, level, channel } = newDustbin;
+            const { _id, place, level, channel, dustbinId } = newDustbin;
             return successRes(res, {
-              dustbin: { _id, place, level, channel },
+              dustbin: { _id, place, level, channel, dustbinId },
               message: 'Dustbin added successfully.',
             });
           })
@@ -56,10 +57,10 @@ module.exports.allDustbin_get = (req, res) => {
 
 module.exports.updateDustbinLevel_post = (req, res) => {
   const { level } = req.body;
-  const { dustbinId } = req.params;
+  const { dustbin_Id } = req.params;
 
   if (level !== undefined || level !== null) {
-    Dustbin.findByIdAndUpdate(dustbinId, { level }, { new: true })
+    Dustbin.findByIdAndUpdate(dustbin_Id, { level }, { new: true })
       .then(updatedDustbin =>
         successRes(res, {
           dustbin: updatedDustbin,
