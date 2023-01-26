@@ -74,21 +74,43 @@ module.exports.updateDustbinLevel_post = (req, res) => {
   } else return errorRes(res, 400, 'Level is required.');
 };
 
-module.exports.updateEmployee_post = (req, res) => {
+module.exports.updateEmployeePassword_post = (req, res) => {
   const { _id } = req.params;
-  const { displayImage, password } = req.body;
+  const { password } = req.body;
+  console.log(req.employee);
+
+  if (_id !== req.employee._id.toString())
+    return errorRes(res, 401, 'Invalid access.');
+  else if (!password) return errorRes(res, 400, 'Password is required.');
+  else {
+    Employee.findByIdAndUpdate(_id, { password }, { new: true })
+      .then(updatedEmployee =>
+        successRes(res, {
+          employee: updatedEmployee,
+          message: 'Password updated.',
+        })
+      )
+      .catch(err => {
+        console.log(err);
+        return errorRes(res, 500, 'Internal server error.');
+      });
+  }
+};
+
+module.exports.updateEmployeeDisplayImage_post = (req, res) => {
+  const { _id } = req.params;
+  const { displayImage } = req.body;
   console.log(req.employee);
 
   if (_id !== req.employee._id.toString())
     return errorRes(res, 401, 'Invalid access.');
   else if (!displayImage) return errorRes(res, 400, 'Avatar is required.');
-  else if (!password) return errorRes(res, 400, 'Password is required.');
   else {
-    Employee.findByIdAndUpdate(_id, { displayImage, password }, { new: true })
+    Employee.findByIdAndUpdate(_id, { displayImage }, { new: true })
       .then(updatedEmployee =>
         successRes(res, {
           employee: updatedEmployee,
-          message: 'Employee updated.',
+          message: 'Avatar updated.',
         })
       )
       .catch(err => {

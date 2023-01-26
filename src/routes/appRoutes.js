@@ -11,9 +11,14 @@ const router = express.Router();
 
 router.get('/employee/all', requireAdminLogin, appController.allEmployees_get);
 router.post(
-  '/employee/:_id/update',
+  '/employee/:_id/password/update',
   requireEmployeeLogin,
-  appController.updateEmployee_post
+  appController.updateEmployeePassword_post
+);
+router.post(
+  '/employee/:_id/avatar/update',
+  requireEmployeeLogin,
+  appController.updateEmployeeDisplayImage_post
 );
 router.post('/dustbin/add', requireAdminLogin, appController.addDustbin_post);
 router.get('/dustbin/all', appController.allDustbin_get);
