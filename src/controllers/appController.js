@@ -48,6 +48,7 @@ module.exports.addDustbin_post = (req, res) => {
 
 module.exports.allDustbin_get = (req, res) => {
   Dustbin.find()
+    .sort({ dustbinId: 1 })
     .then(dustbins => successRes(res, { dustbins }))
     .catch(err => {
       console.log(err);
