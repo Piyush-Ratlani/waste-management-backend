@@ -5,7 +5,6 @@ const Dustbin = mongoose.model('Dustbin');
 
 module.exports.allEmployees_get = (req, res) => {
   Employee.find()
-    .select('-password')
     .then(employees => successRes(res, { employees }))
     .catch(err => {
       console.log(err);

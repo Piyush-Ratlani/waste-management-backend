@@ -101,9 +101,11 @@ module.exports.employeeSignup_post = (req, res) => {
     return errorRes(res, 400, 'All fields are required');
 
   const employeeId =
-    displayName.slice(0, 4).toUpperCase() + Math.floor(Math.random() * 1000);
+    displayName.replaceAll(' ', '').slice(0, 4).toUpperCase() +
+    Math.floor(Math.random() * 1000);
   const password =
-    displayName.slice(0, 3).toUpperCase() + Math.floor(Math.random() * 1000);
+    displayName.replaceAll(' ', '').slice(0, 3).toUpperCase() +
+    Math.floor(Math.random() * 1000);
 
   Employee.findOne({ contactNumber })
     .then(savedUser => {
