@@ -100,6 +100,8 @@ module.exports.employeeSignup_post = (req, res) => {
   if (!displayName || !contactNumber || !address)
     return errorRes(res, 400, 'All fields are required');
 
+  console.log(displayName.replaceAll(' ', ''));
+
   const employeeId =
     displayName.replaceAll(' ', '').slice(0, 4).toUpperCase() +
     Math.floor(Math.random() * 1000);
