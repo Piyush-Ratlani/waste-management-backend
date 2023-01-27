@@ -5,6 +5,7 @@ const Dustbin = mongoose.model('Dustbin');
 
 module.exports.allEmployees_get = (req, res) => {
   Employee.find()
+    .sort({ employeeId: 1 })
     .then(employees => successRes(res, { employees }))
     .catch(err => {
       console.log(err);
