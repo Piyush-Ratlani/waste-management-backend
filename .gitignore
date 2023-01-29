@@ -1,3 +1,4 @@
 .env
 node_modules/*
 package-lock.json
+src/config/smartbin-c93c9-f0288fc59d7d.json
