@@ -27,5 +27,25 @@ router.post(
   requireEmployeeLogin,
   appController.updateDustbinLevel_post
 );
+router.delete(
+  '/employee/:employeeId/delete',
+  requireAdminLogin,
+  appController.deleteEmployee_delete
+);
+router.post(
+  '/employee/:employeeId/update',
+  requireAdminLogin,
+  appController.updateEmployee_post
+);
+router.delete(
+  '/dustbin/:dustbin_Id/delete',
+  requireAdminLogin,
+  appController.deleteDustbin_delete
+);
+router.post(
+  '/dustbin/:dustbin_Id/update',
+  requireAdminLogin,
+  appController.updateDustbin_post
+);
 
 module.exports = router;

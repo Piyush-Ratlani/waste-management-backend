@@ -120,3 +120,86 @@ module.exports.updateEmployeeDisplayImage_post = (req, res) => {
       });
   }
 };
+
+module.exports.deleteDustbin_delete = (req, res) => {
+  const { dustbin_Id } = req.params;
+
+  Dustbin.findByIdAndDelete(dustbin_Id, (err, deletedBin) => {
+    if (err) {
+      console.log(err);
+      errorRes(res, 500, 'Internal server error.');
+    }
+    if (!deletedBin) return errorRes(res, 404, 'Item not found.');
+    return successRes(res, {
+      deletedBin,
+      message: 'Bin deleted successfully',
+    });
+  });
+};
+
+module.exports.deleteEmployee_delete = (req, res) => {
+  const { employeeId } = req.params;
+
+  Employee.findByIdAndDelete(employeeId, (err, deletedEmployee) => {
+    if (err) {
+      console.log(err);
+      errorRes(res, 500, 'Internal server error.');
+    }
+    if (!deletedEmployee) return errorRes(res, 404, 'Employee not found.');
+    return successRes(res, {
+      deletedEmployee,
+      message: 'Employee deleted successfully',
+    });
+  });
+};
+
+module.exports.updateEmployee_post = (req, res) => {
+  const { employeeId } = req.params;
+  const { displayName, contactNumber, address } = req.body;
+
+  if (!displayName) return errorRes(res, 400, 'Name is required.');
+  else if (!contactNumber)
+    return errorRes(res, 400, 'Contact Number is required.');
+  else if (!address) return errorRes(res, 400, 'Address is required.');
+  else {
+    Employee.findByIdAndUpdate(
+      employeeId,
+      { displayName, contactNumber, address },
+      { new: true }
+    )
+      .then(updatedEmployee => {
+        if (!updatedEmployee)
+          return errorRes(res, 400, 'Employee does not exist.');
+        successRes(res, {
+          employee: updatedEmployee,
+          message: 'Employee updated.',
+        });
+      })
+      .catch(err => {
+        console.log(err);
+        return errorRes(res, 500, 'Internal server error.');
+      });
+  }
+};
+
+module.exports.updateDustbin_post = (req, res) => {
+  const { dustbin_Id } = req.params;
+  const { place, channel } = req.body;
+
+  if (!place) return errorRes(res, 400, 'Place is required.');
+  else {
+    Dustbin.findByIdAndUpdate(dustbin_Id, { place, channel }, { new: true })
+      .then(updatedDustbin => {
+        if (!updatedDustbin)
+          return errorRes(res, 400, 'Dustbin does not exist.');
+        successRes(res, {
+          dustbin: updatedDustbin,
+          message: 'Dustbin updated.',
+        });
+      })
+      .catch(err => {
+        console.log(err);
+        return errorRes(res, 500, 'Internal server error.');
+      });
+  }
+};
